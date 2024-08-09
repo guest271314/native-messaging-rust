@@ -1,0 +1,6 @@
+  "name": "nm_rust",
+  "description": "Rust Native Messaging Host",
+  "path": "/absolute/path/to/native-messaging-rust/nm_rust.rs",
+  "type": "stdio",
+  "allowed_origins": []
+}
