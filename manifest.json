@@ -1,0 +1,13 @@
+{
+  "name": "nm-rust",
+  "short_name": "nm_rust",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Rust Native Messaging host",
+  "permissions": ["nativeMessaging"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {}
+}
