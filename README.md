@@ -7,8 +7,29 @@ Installation and usage on Chrome and Chromium
 3. Click `Load unpacked`.
 4. Select `native-messaging-rust` folder.
 5. Note the generated extension ID.
-6. Open `nm_rust.json` in a text editor, set `"path"` to absolute path of `nm_rust.rs` and `chrome-extension://<ID>/` using ID from 5 in `"allowed_origins"` array. 
-7. Copy the file to Chrome or Chromium configuration folder, e.g., Chromium on \*nix `~/.config/chromium/NativeMessagingHosts`; Chrome dev channel on \*nix `~/.config/google-chrome-unstable/NativeMessagingHosts`.
+6. Compile to native executable:
+  ```bash
+RUSTFLAGS="-Zlocation-detail=none" \
+CARGO_HOME=/path/to/rust/.cargo \
+RUSTUP_HOME=/path/to/rust/.rustup \
+/path/to/rust/.cargo/bin/cargo build --release
+  ``` 
+  Compile to WASM with WASI support:
+  ```bash
+RUSTFLAGS="-Zlocation-detail=none" \
+CARGO_HOME=/path/to/rust/.cargo \
+RUSTUP_HOME=/path/to/rust/.rustup \
+/path/to/rust/.cargo/bin/cargo build --target=wasm32-wasip1 --release
+  ```
+
+  Symlink to `PWD` and make sure `nm_rust` is executable:
+  ```bash
+ln -sf target/release/nm_rust $PWD
+ln -sf target/wasm32-wasip1/release/nm_rust.wasm $PWD
+chmod u+x nm_rust
+  ```
+6. Open `nm_rust.json` in a text editor, set `"path"` to absolute path of `nm_rust` and `chrome-extension://<ID>/` using ID from 5 in `"allowed_origins"` array. 
+7. Copy the `nm_rust.json` file to Chrome or Chromium configuration folder, e.g., Chromium on \*nix `~/.config/chromium/NativeMessagingHosts`; Chrome dev channel on \*nix `~/.config/google-chrome-unstable/NativeMessagingHosts`.
 8. Make sure `nm_rust.rs` is executable.
 9. To test click `service worker` link in panel of unpacked extension which is DevTools for `background.js` in MV3 `ServiceWorker`, observe echo'ed message from Node.js Native Messaging host. To disconnect run `port.disconnect()`.
 
